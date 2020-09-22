@@ -20,7 +20,8 @@ class GradeTable extends React.Component {
             <tr>
               <th className="border-right-black">Student Name</th>
               <th className="border-right-black">Course</th>
-              <th>Grade</th>
+              <th className="border-right-black">Grade</th>
+              <th>Operations</th>
             </tr>
           </thead>
           <tbody>
@@ -39,7 +40,10 @@ function Grade(props) {
     <tr>
       <td className="border-right-black">{student.name}</td>
       <td className="border-right-black">{student.course}</td>
-      <td>{student.grade}</td>
+      <td className="border-right-black">{student.grade}</td>
+      <td>
+        <button className="btn btn-danger">Delete</button>
+      </td>
     </tr>
   );
 }
