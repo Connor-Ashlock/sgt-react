@@ -8,6 +8,7 @@ class App extends React.Component {
     super(props);
     this.state = { grades: [] };
     this.getAverageGrade = this.getAverageGrade.bind(this);
+    this.postGrade = this.postGrade.bind(this);
   }
 
   getAllGrades() {
@@ -51,7 +52,7 @@ class App extends React.Component {
         <Header average={this.getAverageGrade()}/>
         <div className="row mt-4">
           <GradeTable grades={this.state.grades}/>
-          <GradeForm />
+          <GradeForm onSubmit={this.postGrade}/>
         </div>
       </>
     );

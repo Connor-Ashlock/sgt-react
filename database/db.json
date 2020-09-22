@@ -23,6 +23,18 @@
       "course": "JavaScript",
       "grade": 80,
       "id": 33
+    },
+    {
+      "name": "Tim Davis",
+      "course": "Web Development",
+      "grade": 99,
+      "id": 34
+    },
+    {
+      "name": "Jonny Bravo",
+      "course": "Hair",
+      "grade": 90,
+      "id": 35
     }
   ]
 }

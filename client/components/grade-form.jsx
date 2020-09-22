@@ -6,6 +6,7 @@ class GradeForm extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleCourseChange = this.handleCourseChange.bind(this);
     this.handleGradeChange = this.handleGradeChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { studentName: '', studentCourse: '', studentGrade: '' };
   }
 
@@ -21,9 +22,20 @@ class GradeForm extends React.Component {
     this.setState({ studentGrade: ev.target.value });
   }
 
+  handleSubmit(ev) {
+    ev.preventDefault();
+    const newGrade = {
+      name: this.state.studentName,
+      course: this.state.studentCourse,
+      grade: parseInt(this.state.studentGrade, 10)
+    };
+    this.props.onSubmit(newGrade);
+    this.setState({ studentName: '', studentCourse: '', studentGrade: '' });
+  }
+
   render() {
     return (
-      <form className="col-lg-4">
+      <form onSubmit={this.handleSubmit} className="col-lg-4">
         <div className="input-group mb-3">
           <div className="input-group-prepend">
             <span className="input-group-text"><i className="fas fa-user"></i></span>
