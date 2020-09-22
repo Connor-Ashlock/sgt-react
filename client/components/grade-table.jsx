@@ -4,10 +4,15 @@ class GradeTable extends React.Component {
   constructor(props) {
     super(props);
     this.createTableRows = this.createTableRows.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   createTableRows() {
-    return <>{this.props.grades.map(student => <Grade key={student.id} student={student}/>)}</>;
+    return <>{this.props.grades.map(student => <Grade key={student.id} student={student} handleDelete={this.handleDelete}/>)}</>;
+  }
+
+  handleDelete() {
+    this.props.onDelete(parseInt(event.target.id));
   }
 
   render() {
@@ -42,7 +47,7 @@ function Grade(props) {
       <td className="border-right-black">{student.course}</td>
       <td className="border-right-black">{student.grade}</td>
       <td>
-        <button className="btn btn-danger">Delete</button>
+        <button id={student.id} className="btn btn-danger" onClick={props.handleDelete}>Delete</button>
       </td>
     </tr>
   );
