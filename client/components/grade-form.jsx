@@ -8,7 +8,13 @@ class GradeForm extends React.Component {
     this.handleGradeChange = this.handleGradeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.state = { studentName: '', studentCourse: '', studentGrade: '' };
+    this.checkValidation = this.checkValidation.bind(this);
+    this.state = {
+      studentName: '',
+      studentCourse: '',
+      studentGrade: '',
+      isValidated: true
+    };
   }
 
   handleNameChange(ev) {
@@ -25,30 +31,29 @@ class GradeForm extends React.Component {
 
   handleSubmit(ev) {
     ev.preventDefault();
+    this.checkValidation();
+  }
+
+  handleCancel() {
+    this.setState({ studentName: '', studentCourse: '', studentGrade: '', isValidated: true });
+  }
+
+  checkValidation(grade) {
     const newGrade = {
       name: this.state.studentName,
       course: this.state.studentCourse,
       grade: parseInt(this.state.studentGrade, 10)
     };
-    if (!this.state.studentName && !this.state.studentCourse && !this.state.studentGrade) {
-      this.setState({ studentName: 'Please submit a name!', studentCourse: 'Please submit a course!', studentGrade: 'Grade must be a number!' });
-    } else if (!parseInt(this.state.studentGrade, 10)) {
-      this.setState({ studentGrade: 'Grade must be a number!' });
-    } else if (!this.state.studentName) {
-      this.setState({ studentName: 'Please submit a name!' });
-    } else if (!this.state.studentCourse) {
-      this.setState({ studentCourse: 'Please submit a course!' });
+    if (!this.state.studentName || !this.state.studentCourse || !parseInt(this.state.studentGrade, 10)) {
+      this.setState({ isValidated: false });
     } else {
       this.props.onSubmit(newGrade);
-      this.setState({ studentName: '', studentCourse: '', studentGrade: '' });
+      this.setState({ studentName: '', studentCourse: '', studentGrade: '', isValidated: true });
     }
   }
 
-  handleCancel() {
-    this.setState({ studentName: '', studentCourse: '', studentGrade: '' });
-  }
-
   render() {
+    const validationMessage = <ValidationMessage state={this.state} />;
     return (
       <form onSubmit={this.handleSubmit} className="col-lg-4">
         <div className="input-group mb-3">
@@ -73,8 +78,23 @@ class GradeForm extends React.Component {
           <button type="submit" className="mx-3 btn btn-success">Add</button>
           <button type="reset" onClick={this.handleCancel} className="btn btn-outline-secondary">Cancel</button>
         </div>
+        {!this.state.isValidated && validationMessage}
       </form>
     );
+  }
+}
+
+function ValidationMessage(props) {
+  if (!props.state.studentName && !props.state.studentCourse && !parseInt(props.state.studentGrade, 10)) {
+    return <p className="d-flex justify-content-end text-danger">Please submit a name, course, and grade!</p>;
+  } else if (!parseInt(props.state.studentGrade, 10)) {
+    return <p className="d-flex justify-content-end text-danger">Grade must be a number!</p>;
+  } else if (!props.state.studentName) {
+    return <p className="d-flex justify-content-end text-danger">Please submit a name!</p>;
+  } else if (!props.state.studentCourse) {
+    return <p className="d-flex justify-content-end text-danger">Please submit a course!</p>;
+  } else {
+    return null;
   }
 }
 
