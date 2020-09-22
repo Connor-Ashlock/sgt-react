@@ -17,6 +17,12 @@
       "name": "Douglas Crockford",
       "course": "JavaScript",
       "grade": 50
+    },
+    {
+      "name": "Connor Ashlock",
+      "course": "JavaScript",
+      "grade": 80,
+      "id": 33
     }
   ]
 }
