@@ -7,6 +7,7 @@ class GradeForm extends React.Component {
     this.handleCourseChange = this.handleCourseChange.bind(this);
     this.handleGradeChange = this.handleGradeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     this.state = { studentName: '', studentCourse: '', studentGrade: '' };
   }
 
@@ -30,17 +31,21 @@ class GradeForm extends React.Component {
       grade: parseInt(this.state.studentGrade, 10)
     };
     if (!this.state.studentName && !this.state.studentCourse && !this.state.studentGrade) {
-      this.setState({ studentName: 'Please submit a name', studentCourse: 'Please submit a course', studentGrade: 'Grade must be a number' });
+      this.setState({ studentName: 'Please submit a name!', studentCourse: 'Please submit a course!', studentGrade: 'Grade must be a number!' });
     } else if (!parseInt(this.state.studentGrade, 10)) {
-      this.setState({ studentName: '', studentCourse: '', studentGrade: 'Grade must be a number' });
-    } else if (this.state.studentName) {
-      this.setState({ studentName: 'Please submit a name', studentCourse: '', studentGrade: '' });
-    } else if (this.state.studentCourse) {
-      this.setState({ studentName: '', studentCourse: 'Please submit a course', studentGrade: '' });
+      this.setState({ studentGrade: 'Grade must be a number!' });
+    } else if (!this.state.studentName) {
+      this.setState({ studentName: 'Please submit a name!' });
+    } else if (!this.state.studentCourse) {
+      this.setState({ studentCourse: 'Please submit a course!' });
     } else {
       this.props.onSubmit(newGrade);
       this.setState({ studentName: '', studentCourse: '', studentGrade: '' });
     }
+  }
+
+  handleCancel() {
+    this.setState({ studentName: '', studentCourse: '', studentGrade: '' });
   }
 
   render() {
@@ -66,7 +71,7 @@ class GradeForm extends React.Component {
         </div>
         <div className="input-group justify-content-end mb-3">
           <button type="submit" className="mx-3 btn btn-success">Add</button>
-          <button type="reset" className="btn btn-outline-secondary">Cancel</button>
+          <button type="reset" onClick={this.handleCancel} className="btn btn-outline-secondary">Cancel</button>
         </div>
       </form>
     );

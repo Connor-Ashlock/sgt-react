@@ -35,6 +35,12 @@
       "course": "Hair",
       "grade": 90,
       "id": 35
+    },
+    {
+      "name": "Kobe Bryant",
+      "course": "Goat",
+      "grade": 100,
+      "id": 36
     }
   ]
 }
