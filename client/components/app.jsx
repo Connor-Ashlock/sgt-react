@@ -62,6 +62,26 @@ class App extends React.Component {
       .catch(err => console.error(err));
   }
 
+  updateGrade(studentId) {
+    let index = null;
+    for (let i = 0; i < this.state.grades.length; i++) {
+      if (this.state.grades[i].id === studentId) {
+        index = i;
+      }
+    }
+    fetch(`/api/grades/${studentId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(studentId)
+    })
+      .then(res => res.json())
+      .then(updatedEntry => {
+        const updatedGrades = this.state.grades.slice();
+        updatedGrades[index] = updatedEntry;
+        this.setState({ grades: updatedGrades });
+      });
+  }
+
   componentDidMount() {
     this.getAllGrades();
   }
