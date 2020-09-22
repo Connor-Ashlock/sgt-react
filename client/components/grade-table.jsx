@@ -46,7 +46,8 @@ function Grade(props) {
       <td className="border-right-black">{student.name}</td>
       <td className="border-right-black">{student.course}</td>
       <td className="border-right-black">{student.grade}</td>
-      <td>
+      <td className="d-flex justify-content-end">
+        <button id={student.id} className="btn btn-primary mr-3">Edit</button>
         <button id={student.id} className="btn btn-danger" onClick={props.handleDelete}>Delete</button>
       </td>
     </tr>
