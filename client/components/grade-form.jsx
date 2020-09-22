@@ -29,8 +29,18 @@ class GradeForm extends React.Component {
       course: this.state.studentCourse,
       grade: parseInt(this.state.studentGrade, 10)
     };
-    this.props.onSubmit(newGrade);
-    this.setState({ studentName: '', studentCourse: '', studentGrade: '' });
+    if (!this.state.studentName && !this.state.studentCourse && !this.state.studentGrade) {
+      this.setState({ studentName: 'Please submit a name', studentCourse: 'Please submit a course', studentGrade: 'Grade must be a number' });
+    } else if (!parseInt(this.state.studentGrade, 10)) {
+      this.setState({ studentName: '', studentCourse: '', studentGrade: 'Grade must be a number' });
+    } else if (this.state.studentName) {
+      this.setState({ studentName: 'Please submit a name', studentCourse: '', studentGrade: '' });
+    } else if (this.state.studentCourse) {
+      this.setState({ studentName: '', studentCourse: 'Please submit a course', studentGrade: '' });
+    } else {
+      this.props.onSubmit(newGrade);
+      this.setState({ studentName: '', studentCourse: '', studentGrade: '' });
+    }
   }
 
   render() {
