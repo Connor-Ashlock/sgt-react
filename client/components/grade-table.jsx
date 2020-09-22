@@ -19,7 +19,7 @@ class GradeTable extends React.Component {
     const rows = this.createTableRows();
     const grades = this.props.grades;
     return (
-      <div className="col-lg-8">
+      <div className="col-lg-8 table-responsive">
         <table className="border border-dark table table-striped table-hover">
           <thead className="thead-dark">
             <tr>
