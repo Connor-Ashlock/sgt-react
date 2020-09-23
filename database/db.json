@@ -8,14 +8,14 @@
     },
     {
       "id": 32,
-      "name": "Douglas Crockford",
+      "name": "Douglas Crock",
       "course": "JavaScript",
       "grade": 50
     },
     {
       "name": "Connor Ashlock",
-      "course": "JavaScript",
-      "grade": 80,
+      "course": "React",
+      "grade": 92,
       "id": 33
     },
     {
@@ -29,6 +29,12 @@
       "course": "Goat",
       "grade": 100,
       "id": 36
+    },
+    {
+      "name": "Water Boy",
+      "course": "Foozball",
+      "grade": 95,
+      "id": 37
     }
   ]
 }
