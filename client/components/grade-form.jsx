@@ -35,6 +35,7 @@ class GradeForm extends React.Component {
   }
 
   handleCancel() {
+    this.props.resetSelectedStudent();
     this.setState({ studentName: '', studentCourse: '', studentGrade: '', isValidated: true });
   }
 
@@ -47,12 +48,27 @@ class GradeForm extends React.Component {
     if (!this.state.studentName || !this.state.studentCourse || !parseInt(this.state.studentGrade, 10)) {
       this.setState({ isValidated: false });
     } else {
+      if (this.props.editStudent) {
+        newGrade.id = this.props.editStudent.id;
+      }
       this.props.onSubmit(newGrade);
       this.setState({ studentName: '', studentCourse: '', studentGrade: '', isValidated: true });
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.editStudent === null) {
+      return null;
+    } else if (this.props.editStudent !== prevProps.editStudent) {
+      const name = this.props.editStudent.name;
+      const course = this.props.editStudent.course;
+      const grade = this.props.editStudent.grade;
+      this.setState({ studentName: name, studentCourse: course, studentGrade: grade });
+    }
+  }
+
   render() {
+    const edit = this.props.editStudent;
     const validationMessage = <ValidationMessage state={this.state} />;
     return (
       <form onSubmit={this.handleSubmit} className="col-lg-4">
@@ -75,7 +91,7 @@ class GradeForm extends React.Component {
           <input type="text" value={this.state.studentGrade} onChange={this.handleGradeChange} className="col" name="grade" placeholder="Grade" />
         </div>
         <div className="input-group justify-content-end mb-3">
-          <button type="submit" className="mx-3 btn btn-success">Add</button>
+          <button type="submit" className={`mr-3 btn btn-${!edit ? 'success' : 'primary'}`}>{!edit ? 'Add' : 'Update'}</button>
           <button type="reset" onClick={this.handleCancel} className="btn btn-outline-secondary">Cancel</button>
         </div>
         {!this.state.isValidated && validationMessage}

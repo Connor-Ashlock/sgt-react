@@ -6,10 +6,16 @@ import GradeForm from './grade-form';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { grades: [] };
     this.getAverageGrade = this.getAverageGrade.bind(this);
     this.postGrade = this.postGrade.bind(this);
     this.deleteGrade = this.deleteGrade.bind(this);
+    this.getGradeById = this.getGradeById.bind(this);
+    this.updateGrade = this.updateGrade.bind(this);
+    this.resetSelectedStudent = this.resetSelectedStudent.bind(this);
+    this.state = {
+      grades: [],
+      selectedStudent: null
+    };
   }
 
   getAllGrades() {
@@ -62,6 +68,46 @@ class App extends React.Component {
       .catch(err => console.error(err));
   }
 
+  getGradeById(studentId) {
+    fetch(`/api/grades/${studentId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      data: JSON.stringify(studentId)
+    })
+      .then(res => res.json())
+      .then(editStudent => {
+        this.setState({ selectedStudent: editStudent });
+      })
+      .catch(err => console.error(err));
+  }
+
+  updateGrade(newGrade) {
+    let index = null;
+    for (let i = 0; i < this.state.grades.length; i++) {
+      if (this.state.grades[i].id === newGrade.id) {
+        index = i;
+      }
+    }
+    fetch(`/api/grades/${newGrade.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newGrade)
+    })
+      .then(res => res.json())
+      .then(newStudent => {
+        const updatedGrades = this.state.grades.slice();
+        updatedGrades[index] = newStudent;
+        this.setState({
+          grades: updatedGrades,
+          selectedStudent: null
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  resetSelectedStudent() {
+    this.setState({ selectedStudent: null });
+  }
+
   componentDidMount() {
     this.getAllGrades();
   }
@@ -71,8 +117,8 @@ class App extends React.Component {
       <>
         <Header average={this.getAverageGrade()}/>
         <div className="row mt-4">
-          <GradeTable onDelete={this.deleteGrade} grades={this.state.grades}/>
-          <GradeForm onSubmit={this.postGrade}/>
+          <GradeTable getGradeById={this.getGradeById} onDelete={this.deleteGrade} grades={this.state.grades}/>
+          <GradeForm onSubmit={!this.state.selectedStudent ? this.postGrade : this.updateGrade} resetSelectedStudent={this.resetSelectedStudent} editStudent={this.state.selectedStudent}/>
         </div>
       </>
     );
